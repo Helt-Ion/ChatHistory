@@ -1,7 +1,7 @@
 import jsonlines
 from pathlib import Path
 from typing import List, Dict, Any, Union, Optional
-from src.config import global_config as config
+from ..config import global_config as config
 
 
 class DataLoader:

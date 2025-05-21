@@ -61,10 +61,6 @@ class QAManager:
             rel_str = self.embed_manager.relation_embedding_store.store.get(res[0]).str
             print(f"找到相关关系，相似度：{(res[1] * 100):.2f}%  -  {rel_str}")
 
-        # TODO: 使用LLM过滤三元组结果
-        # logger.info(f"LLM过滤三元组用时：{time.time() - part_start_time:.2f}s")
-        # part_start_time = time.time()
-
         # 根据问题Embedding查询Paragraph Embedding库
         part_start_time =time.perf_counter()
         paragraph_search_res = (

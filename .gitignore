@@ -3,6 +3,7 @@
 /venv/
 **/__pycache__/
 /src/plugins/memory_system/data/
+/data/
 /src/plugins/memory_system/temp/
 
 /src/plugins/memory_system//test.py
