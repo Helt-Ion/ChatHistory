@@ -1,0 +1,14 @@
+/.vscode/
+/.idea/
+/build/
+/dist/
+/quick_algo.egg-info/
+
+/src/quick_algo/di_graph.cpp
+/quick_algo/di_graph/*.pyd
+/src/quick_algo/pagerank.cpp
+/quick_algo/pagerank/*.pyd
+/src/quick_algo.egg-info/
+
+*.pyc
+/test_data.txt

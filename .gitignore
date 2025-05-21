@@ -2,8 +2,8 @@
 /.idea/
 /venv/
 **/__pycache__/
-/data/
-/temp/
+/src/plugins/memory_system/data/
+/src/plugins/memory_system/temp/
 
-/test.py
-/RAG.png
+/src/plugins/memory_system//test.py
+/src/plugins/memory_system//RAG.png
