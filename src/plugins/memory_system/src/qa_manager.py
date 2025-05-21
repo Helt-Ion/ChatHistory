@@ -1,13 +1,13 @@
 import time
 from typing import Tuple, List, Dict
 
-from global_logger import logger
-from src import prompt_template
-from src.embedding_store import EmbeddingManager
-from src.llm_client import LLMClient
-from src.kg_manager import KGManager
-from src.config import global_config
-from src.utils.dyn_topk import dyn_select_top_k
+from ..global_logger import logger
+from . import prompt_template
+from .embedding_store import EmbeddingManager
+from .llm_client import LLMClient
+from .kg_manager import KGManager
+from .config import global_config
+from .utils.dyn_topk import dyn_select_top_k
 
 
 class QAManager:

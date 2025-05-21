@@ -1,7 +1,7 @@
 import json
 import os
 
-from global_logger import logger
+from ..global_logger import logger
 from .config import global_config
 from .utils.hash import get_sha256
 

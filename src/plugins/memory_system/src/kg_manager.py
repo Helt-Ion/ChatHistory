@@ -20,7 +20,7 @@ from .config import (
     global_config,
 )
 
-from global_logger import logger
+from ..global_logger import logger
 
 class KGManager:
     def __init__(self):
