@@ -6,12 +6,12 @@ from threading import Lock, Event
 
 import tqdm
 
-from global_logger import logger
-from src.config import global_config
-from src.ie_process import info_extract_from_str
-from src.llm_client import LLMClient
-from src.open_ie import OpenIE
-from src.raw_processing import load_raw_data
+from ..global_logger import logger
+from .config import global_config
+from .ie_process import info_extract_from_str
+from .llm_client import LLMClient
+from .open_ie import OpenIE
+from .raw_processing import load_raw_data
 
 TEMP_DIR = "./temp"
 
@@ -73,7 +73,7 @@ def signal_handler(signum, frame):
     logger.info("\n接收到中断信号，正在优雅地关闭程序...")
     shutdown_event.set()
 
-def main():
+def pre_process():
     # 设置信号处理器
     signal.signal(signal.SIGINT, signal_handler)
     
@@ -150,7 +150,3 @@ def main():
 
     logger.info("--------信息提取完成--------")
     logger.info(f"提取失败的文段SHA256：{failed_sha256}")
-
-
-if __name__ == "__main__":
-    main()

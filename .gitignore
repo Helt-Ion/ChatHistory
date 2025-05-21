@@ -5,6 +5,7 @@
 /src/plugins/memory_system/data/
 /data/
 /src/plugins/memory_system/temp/
+/temp/
 
 /src/plugins/memory_system//test.py
 /src/plugins/memory_system//RAG.png
