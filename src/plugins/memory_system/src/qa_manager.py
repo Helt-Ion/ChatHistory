@@ -126,3 +126,29 @@ class QAManager:
             print(f"思考：{reasoning}\n回答：{content}\n")
 
         logger.info(f"总用时：{time.time() - start_time:.2f}s")
+
+    def actor_question(self, question: str):
+        """角色扮演回答问题"""
+        start_time = time.time()  # 计时：总用时计算
+        # 处理查询
+        query_res, _ = self.process_query(question)
+
+        knowledge = [
+            (
+                self.embed_manager.paragraphs_embedding_store.store[res[0]].str,
+                res[1],
+            )
+            for res in query_res
+        ]
+        # 将检索结果和问题发送给LLM，获取答案
+        # 构造上下文
+        context = prompt_template.build_actor_context(question, knowledge)
+        reasoning, content = self.llm_client_list["qa"].send_chat_request(
+            global_config["qa"]["llm"]["model"], context
+        )
+        if reasoning is None:
+            print(f"回答：{content}\n")
+        else:
+            print(f"思考：{reasoning}\n回答：{content}\n")
+
+        logger.info(f"总用时：{time.time() - start_time:.2f}s")

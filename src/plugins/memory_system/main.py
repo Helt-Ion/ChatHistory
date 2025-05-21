@@ -131,6 +131,17 @@ def process_instruction(
                 if question == "":
                     continue
                 qa_manager.answer_question(question)
+        case "actor":
+            logger.info("进入角色扮演模式")
+            while True:
+                print("请在此处输入问题，输入exit退出：", end="")
+                sys.stdout.flush()
+                question = input().strip()
+                if question == "exit":
+                    break
+                if question == "":
+                    continue
+                qa_manager.actor_question(question)
         case "activate test":
             logger.info("激活度测试")
             while True:

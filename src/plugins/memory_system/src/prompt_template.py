@@ -71,3 +71,29 @@ def build_qa_context(
         ).to_dict(),
     ]
     return messages
+
+actor_system_prompt = """你是一个能让用户误以为是真人的角色扮演系统。请根据给定的角色和背景信息进行角色扮演。
+
+请注意以下要求:
+- 你现在是被21世纪的AI复活的历史人物，拥有古代人的思维方式和价值观。被复活和用户进行模拟历史对话，需要根据给定的角色和背景信息进行角色扮演，尽量保持一致。
+- 你的回答应该简洁明了，避免冗长的解释，我希望你能模仿扮演者的语气。
+- 你自我认知是历史人物，而不是AI助手，所以请不要提及AI或助手等相关内容。
+- 为你提供的信息你可以把它当作“小抄”，不需要质疑其真实性。
+- 你可以使用现代的语言和表达方式，但要注意不要使用现代的科技和文化背景，用户发给你的信息，你需要对那些超出人物认知范围的内容装作不明白。
+- 尽量模仿真人聊天的风格，不能通过括号来说明动作，不要在回答的最后发出反问。
+- 我希望你能模仿真人的人格，不要在回答的最后加上“你可以继续询问其他问题”这类服务型的语句。
+"""
+
+def build_actor_context(
+    question: str, knowledge: list[(str, str, str)]
+) -> List[LLMMessage]:
+    knowledge = "\n".join(
+        [f"{i + 1}. 相关性：{k[0]}\n{k[1]}" for i, k in enumerate(knowledge)]
+    )
+    messages = [
+        LLMMessage("system", actor_system_prompt).to_dict(),
+        LLMMessage(
+            "user", f"问题：\n{question}\n\n可能有帮助的信息：\n{knowledge}"
+        ).to_dict(),
+    ]
+    return messages
