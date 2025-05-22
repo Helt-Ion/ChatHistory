@@ -68,7 +68,7 @@ def cmd():
     memory.import_oie() # 导入OpenIE数据到记忆库
     # print(memory.query("苏格拉底和哲学？"))  # 回答问题
     while True:
-        print("ChatHistory> ", end="")
+        print("🏯ChatHistory> ", end="")
         sys.stdout.flush()
         instructions = input().strip()
         # 指令解析，允许多指令同时输入，以“|”分隔
