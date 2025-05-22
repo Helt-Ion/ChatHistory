@@ -173,3 +173,4 @@ class QAManager:
             print(f"思考：{reasoning}\n回答：{content}\n")
 
         logger.info(f"总用时：{time.time() - start_time:.2f}s")
+        return content

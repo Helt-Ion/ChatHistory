@@ -1,6 +1,7 @@
 /.vscode/
 /.idea/
 /venv/
+/.gradio/
 **/__pycache__/
 /src/plugins/memory_system/data/
 /data/
