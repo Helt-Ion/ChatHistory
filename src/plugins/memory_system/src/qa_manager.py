@@ -57,9 +57,18 @@ class QAManager:
         part_end_time = time.perf_counter()
         logger.debug(f"关系检索用时：{part_end_time - part_start_time:.5f}s")
 
+        relations = []  # 用于存储提取的三元组
+
         for res in relation_search_res:
             rel_str = self.embed_manager.relation_embedding_store.store.get(res[0]).str
             print(f"找到相关关系，相似度：{(res[1] * 100):.2f}%  -  {rel_str}")
+            # 提取三元组（假设格式始终为形如 ('主体', '关系', '客体') 的字符串）
+            try:
+                triple = eval(rel_str)
+                if isinstance(triple, tuple) and len(triple) == 3:
+                    relations.append(triple)
+            except Exception as e:
+                    print(f"⚠️ 三元组解析失败：{rel_str}，错误：{e}")
 
         # 根据问题Embedding查询Paragraph Embedding库
         part_start_time =time.perf_counter()
@@ -87,6 +96,8 @@ class QAManager:
             ppr_node_weights = None
 
         # 过滤阈值
+        # print(f"保留的关键词：{relations_keywords}")
+        # result = dyn_select_top_k_with_keywords(result, 0.5, 1.0, relations_keywords)
         result = dyn_select_top_k(result, 0.5, 1.0)
 
         for res in result:
@@ -94,14 +105,26 @@ class QAManager:
                 res[0]
             ].str
             print(f"找到相关文段，相关系数：{res[1]:.8f}\n{raw_paragraph}\n\n")
+  
+        return result, ppr_node_weights, relations
 
-        return result, ppr_node_weights
-
+    def process_query_beautiful(self, question: str) -> Tuple[List[Tuple[str, float, float]], Dict[str, float] | None]:
+        query_res, _, relations = self.process_query(question)
+        knowledge = [
+            (
+                self.embed_manager.paragraphs_embedding_store.store[res[0]].str,
+                res[1],
+            )
+            for res in query_res
+        ]
+        knowledge.extend(relations)
+        return knowledge
+    
     def answer_question(self, question: str):
         """回答问题"""
         start_time = time.time()  # 计时：总用时计算
         # 处理查询
-        query_res, _ = self.process_query(question)
+        query_res, _, relations = self.process_query(question)
 
         knowledge = [
             (
@@ -110,6 +133,7 @@ class QAManager:
             )
             for res in query_res
         ]
+        knowledge.extend(relations)
         # 将检索结果和问题发送给LLM，获取答案
         # 构造上下文
         context = prompt_template.build_qa_context(question, knowledge)
@@ -127,7 +151,7 @@ class QAManager:
         """角色扮演回答问题"""
         start_time = time.time()  # 计时：总用时计算
         # 处理查询
-        query_res, _ = self.process_query(question)
+        query_res, _, relations = self.process_query(question)
 
         knowledge = [
             (
@@ -136,6 +160,7 @@ class QAManager:
             )
             for res in query_res
         ]
+        knowledge.extend(relations)
         # 将检索结果和问题发送给LLM，获取答案
         # 构造上下文
         context = prompt_template.build_actor_context(question, knowledge)

@@ -82,4 +82,16 @@ class MemoryManager:
     
     def query(self, question):
         """处理查询"""
+        return self._qa_manager.process_query_beautiful(question)
+    
+    def get_activation(self, question):
+        """处理激活度查询"""
+        return self._inspire_manager.get_activation(question)
+    
+    def get_qa(self, question):
+        """处理问答查询"""
         return self._qa_manager.answer_question(question)
+    
+    def get_actor(self, question):
+        """处理角色扮演查询"""
+        return self._qa_manager.actor_question(question)
