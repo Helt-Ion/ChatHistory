@@ -6,12 +6,12 @@ from threading import Lock, Event
 
 import tqdm
 
-from ..global_logger import logger
-from .config import global_config
+from .utils.global_logger import logger
+from .utils.config import global_config
 from .ie_process import info_extract_from_str
 from .llm_client import LLMClient
 from .open_ie import OpenIE
-from .raw_processing import load_raw_data
+from .utils.raw_processing import load_raw_data
 
 TEMP_DIR = "./temp"
 

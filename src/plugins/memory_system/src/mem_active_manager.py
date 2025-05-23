@@ -1,4 +1,4 @@
-from .config import global_config
+from .utils.config import global_config
 from .embedding_store import EmbeddingManager
 from .llm_client import LLMClient
 from .utils.dyn_topk import dyn_select_top_k

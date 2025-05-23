@@ -2,10 +2,10 @@ import json
 from typing import Any, Dict, List
 
 
-from .config import INVALID_ENTITY, global_config
+from .utils.config import INVALID_ENTITY, global_config
 from .embedding_store import EmbeddingManager
 from .kg_manager import KGManager
-from ..global_logger import logger
+from .utils.global_logger import logger
 from .utils.hash import hash_deduplicate
 
 

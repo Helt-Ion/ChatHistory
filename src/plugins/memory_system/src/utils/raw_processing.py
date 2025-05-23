@@ -1,9 +1,9 @@
 import json
 import os
 
-from ..global_logger import logger
+from .global_logger import logger
 from .config import global_config
-from .utils.hash import get_sha256
+from .hash import get_sha256
 
 
 def load_raw_data() -> tuple[list[str], list[str]]:

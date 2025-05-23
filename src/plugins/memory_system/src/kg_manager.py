@@ -11,7 +11,7 @@ from quick_algo import di_graph, pagerank
 
 from .utils.hash import get_sha256
 from .embedding_store import EmbeddingManager, EmbeddingStoreItem
-from .config import (
+from .utils.config import (
     ENT_NAMESPACE,
     PG_NAMESPACE,
     RAG_ENT_CNT_NAMESPACE,
@@ -20,7 +20,7 @@ from .config import (
     global_config,
 )
 
-from ..global_logger import logger
+from .utils.global_logger import logger
 
 class KGManager:
     def __init__(self):

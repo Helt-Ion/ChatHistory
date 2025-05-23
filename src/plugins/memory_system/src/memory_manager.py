@@ -1,11 +1,11 @@
-from .config import PG_NAMESPACE, global_config
+from .utils.config import PG_NAMESPACE, global_config
 from .embedding_store import EmbeddingManager
 from .kg_manager import KGManager
 from .llm_client import LLMClient
 from .mem_active_manager import MemoryActiveManager
 from .open_ie import OpenIE, handle_import_openie
 from .qa_manager import QAManager
-from ..global_logger import logger
+from .utils.global_logger import logger
 
 class MemoryManager:
     def __init__(self):
