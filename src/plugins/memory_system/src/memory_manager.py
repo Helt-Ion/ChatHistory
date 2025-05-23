@@ -94,4 +94,9 @@ class MemoryManager:
     
     def get_actor(self, question):
         """处理角色扮演查询"""
+        ans, _ = self._qa_manager.actor_question(question)
+        return ans;
+    
+    def get_actor_with_kg(self, question):
+        """处理角色扮演查询，同时保留KG信息"""
         return self._qa_manager.actor_question(question)
