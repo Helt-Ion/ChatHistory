@@ -178,21 +178,23 @@ class EmbeddingStore:
 
 
 class EmbeddingManager:
-    def __init__(self, llm_client: LLMClient):
+    def __init__(self, llm_client: LLMClient, _agent_name):
+        self._agent_name = _agent_name
+        store_dir = global_config["persistence"]["data_root_path"] + "/" + self._agent_name + global_config["persistence"]["embedding_data_dir"]
         self.paragraphs_embedding_store = EmbeddingStore(
             llm_client,
             PG_NAMESPACE,
-            global_config["persistence"]["embedding_data_dir"],
+            store_dir,
         )
         self.entities_embedding_store = EmbeddingStore(
             llm_client,
             ENT_NAMESPACE,
-            global_config["persistence"]["embedding_data_dir"],
+            store_dir,
         )
         self.relation_embedding_store = EmbeddingStore(
             llm_client,
             REL_NAMESPACE,
-            global_config["persistence"]["embedding_data_dir"],
+            store_dir,
         )
         self.stored_pg_hashes = set()
 

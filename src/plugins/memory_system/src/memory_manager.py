@@ -8,16 +8,18 @@ from .qa_manager import QAManager
 from .utils.global_logger import logger
 
 class MemoryManager:
-    def __init__(self):
+    def __init__(self, _agent_name="孔子"):
+        self._agent_name = _agent_name
         try:
             from ..lib import quick_algo
             print("quick_algo库已加载")
         except ImportError:
             print("未找到quick_algo库，无法使用quick_algo算法")
             print("请安装quick_algo库 - 在lib.quick_algo中，执行命令：python setup.py build_ext --inplace")
-
+        # 0.检查对应的agent是否存在
+        
         # 1.初始化LLM客户端
-        logger.info("创建LLM客户端")
+        logger.info("为agent {} 创建LLM客户端".format(self._agent_name))
         llm_client_list = dict()
         for key in global_config["llm_providers"]:
             llm_client_list[key] = LLMClient(
@@ -26,24 +28,25 @@ class MemoryManager:
             )
             print(llm_client_list[key])
 
-        # 2.初始化Embedding库
+        # 2.初始化Embedding库（指定agent名字的嵌入库）
         self._embed_manager = EmbeddingManager(
-            llm_client_list[global_config["embedding"]["provider"]]
+            llm_client_list[global_config["embedding"]["provider"]],
+            self._agent_name,
         )
-        logger.info("正在从文件加载Embedding库")
+        logger.info("正在从文件加载agent {} 的Embedding库".format(self._agent_name))
         try:
             self._embed_manager.load_from_file()
         except Exception as e:
-            logger.error("从文件加载Embedding库时发生错误：{}".format(e))
-        logger.info("Embedding库加载完成")
-        # 3.初始化KG
-        self._kg_manager = KGManager()
-        logger.info("正在从文件加载KG")
+            logger.error("从文件加载{} 的 Embedding库时发生错误：{}".format(self._agent_name, e))
+        logger.info("{} 的 Embedding库加载完成.".format(self._agent_name))
+        # 3.初始化KG（指定agent名字的KG库）
+        self._kg_manager = KGManager(self._agent_name)
+        logger.info("正在从文件加载 {} 的KG".format(self._agent_name))
         try:
             self._kg_manager.load_from_file()
         except Exception as e:
-            logger.error("从文件加载KG时发生错误：{}".format(e))
-        logger.info("KG加载完成")
+            logger.error("从文件加载 {} 的KG时发生错误：{}".format(self._agent_name, e))
+        logger.info("{} KG加载完成".format(self._agent_name))
 
         logger.info(f"KG节点数量：{len(self._kg_manager.graph.get_node_list())}")
         logger.info(f"KG边数量：{len(self._kg_manager.graph.get_edge_list())}")
@@ -72,7 +75,7 @@ class MemoryManager:
     def import_oie(self):
         logger.info("正在导入OpenIE数据文件")
         try:
-            openie_data = OpenIE.load()
+            openie_data = OpenIE.load(self._agent_name)
         except Exception as e:
             logger.error("导入OpenIE数据文件时发生错误：{}".format(e))
             return False

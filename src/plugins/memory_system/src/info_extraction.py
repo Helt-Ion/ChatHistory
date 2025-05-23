@@ -73,7 +73,7 @@ def signal_handler(signum, frame):
     logger.info("\n接收到中断信号，正在优雅地关闭程序...")
     shutdown_event.set()
 
-def pre_process():
+def pre_process(_agent_name: str):
     # 设置信号处理器
     signal.signal(signal.SIGINT, signal_handler)
     
@@ -88,7 +88,7 @@ def pre_process():
         )
 
     logger.info("正在加载原始数据")
-    sha256_list, raw_datas = load_raw_data()
+    sha256_list, raw_datas = load_raw_data(_agent_name)
     logger.info("原始数据加载完成\n")
 
     # 创建临时目录
@@ -146,7 +146,7 @@ def pre_process():
         round(sum_phrase_chars / num_phrases, 4),
         round(sum_phrase_words / num_phrases, 4),
     )
-    OpenIE.save(openie_obj)
+    OpenIE.save(openie_obj, _agent_name)
 
     logger.info("--------信息提取完成--------")
     logger.info(f"提取失败的文段SHA256：{failed_sha256}")

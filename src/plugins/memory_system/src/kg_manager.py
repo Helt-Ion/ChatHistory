@@ -23,7 +23,8 @@ from .utils.config import (
 from .utils.global_logger import logger
 
 class KGManager:
-    def __init__(self):
+    def __init__(self, _agent_name: str):
+        self._agent_name = _agent_name
         # 会被保存的字段
         # 存储段落的hash值，用于去重
         self.stored_paragraph_hashes = set()
@@ -33,7 +34,7 @@ class KGManager:
         self.graph = di_graph.DiGraph()
 
         # 持久化相关
-        self.dir_path = global_config["persistence"]["rag_data_dir"]
+        self.dir_path = global_config["persistence"]["data_root_path"] + "/" + self._agent_name + global_config["persistence"]["rag_data_dir"]
         self.graph_data_path = self.dir_path + "/" + RAG_GRAPH_NAMESPACE + ".graphml"
         self.ent_cnt_data_path = (
             self.dir_path + "/" + RAG_ENT_CNT_NAMESPACE + ".parquet"

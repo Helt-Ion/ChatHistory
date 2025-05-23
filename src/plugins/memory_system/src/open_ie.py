@@ -102,10 +102,10 @@ class OpenIE:
         }
 
     @staticmethod
-    def load() -> "OpenIE":
+    def load(_agent_name: str) -> "OpenIE":
         """从文件中加载OpenIE数据"""
         with open(
-            global_config["persistence"]["openie_data_path"], "r", encoding="utf-8"
+            global_config["persistence"]["data_root_path"] + "/" + _agent_name + global_config["persistence"]["openie_data_path"], "r", encoding="utf-8"
         ) as f:
             data = json.loads(f.read())
 
@@ -114,10 +114,10 @@ class OpenIE:
         return openie_data
 
     @staticmethod
-    def save(openie_data: "OpenIE"):
+    def save(openie_data: "OpenIE", _agent_name: str):
         """保存OpenIE数据到文件"""
         with open(
-            global_config["persistence"]["openie_data_path"], "w", encoding="utf-8"
+            global_config["persistence"]["data_root_path"] + "/" + _agent_name + global_config["persistence"]["openie_data_path"], "w", encoding="utf-8"
         ) as f:
             f.write(json.dumps(openie_data._to_dict(), ensure_ascii=False, indent=4))
 

@@ -6,7 +6,7 @@ from .config import global_config
 from .hash import get_sha256
 
 
-def load_raw_data() -> tuple[list[str], list[str]]:
+def load_raw_data(_agent_name: str) -> tuple[list[str], list[str]]:
     """加载原始数据文件
 
     读取原始数据文件，将原始数据加载到内存中
@@ -16,9 +16,10 @@ def load_raw_data() -> tuple[list[str], list[str]]:
         - md5_set: 原始数据的SHA256集合
     """
     # 读取import.json文件
-    if os.path.exists(global_config["persistence"]["raw_data_path"]) is True:
+    store_dir = global_config["persistence"]["data_root_path"] + "/" + _agent_name + global_config["persistence"]["raw_data_path"]
+    if os.path.exists(store_dir) is True:
         with open(
-            global_config["persistence"]["raw_data_path"], "r", encoding="utf-8"
+            store_dir, "r", encoding="utf-8"
         ) as f:
             import_json = json.loads(f.read())
     else:
